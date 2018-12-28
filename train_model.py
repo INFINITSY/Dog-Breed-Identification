@@ -13,7 +13,7 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 
 # 模型的参数
-img_width, img_height = 64, 64
+img_width, img_height = 128, 128
 train_data_dir = './train/'
 validation_data_dir = './validation/'
 num_classes = 18
@@ -33,10 +33,10 @@ model.add(Conv2D(64, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Conv2D(64, (3, 3)))
+model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-
+'''
 model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -44,16 +44,16 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(256, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-
+'''
 model.add(Flatten())
-model.add(Dense(1024))
+model.add(Dense(256))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes))
 model.add(Activation('softmax'))
 
 # 加载先前训练了250轮之后的权重，继续训练50轮以观察loss和acc的变化情况
-model.load_weights('first_try.h5')
+#model.load_weights('first_try.h5')
 model.compile(optimizer='adadelta', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # 进行数据增强用于更好的训练模型
@@ -85,7 +85,7 @@ history = model.fit_generator(
     validation_steps=nb_validation_samples // batch_size)
 
 
-model.save_weights('second_try.h5')
+model.save_weights('first_try.h5')
 
 # 训练过程可视化，将loss，acc图标保存
 acc = history.history['acc']
@@ -98,13 +98,13 @@ plt.plot(epochs, val_acc, 'b', label='Validation acc')
 plt.title('Training and validation accuracy')
 plt.legend()
 plt.figure()
-plt.savefig("second_try_acc.jpg")
+plt.savefig("first_try_acc.jpg")
 
 plt.plot(epochs, loss, 'bo', label='Training loss')
 plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 plt.show()
-plt.savefig("second_try_loss.jpg")
+plt.savefig("first_try_loss.jpg")
 
 
