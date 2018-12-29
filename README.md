@@ -8,5 +8,5 @@ __Remained issue__
   - crop input images
 ### test_model.py
 Use the images in `/test` to test the model.
-### gui_final
+### gui_final.py
 Create a user interface to select and show images
