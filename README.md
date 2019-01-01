@@ -1,4 +1,4 @@
-# dog_test
+# Dog_test
 ### train_model.py
 Use the images in `/train` and `/validation` to train the model.
 
