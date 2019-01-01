@@ -7,19 +7,20 @@ Created on Tue Fib 20 16:57:38 2018
 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D
+from keras.optimizers import SGD
+from keras.layers import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 import matplotlib.pyplot as plt
 
 # 模型的参数
-img_width, img_height = 128, 128
+img_width, img_height = 224, 224
 train_data_dir = './train/'
 validation_data_dir = './validation/'
 num_classes = 18
 nb_train_samples = 2533
 nb_validation_samples = 629
-nb_epoch = 30
+nb_epoch = 100
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
@@ -28,6 +29,7 @@ else:
     input_shape = (img_width, img_height, 3)
 
 # 建立模型
+'''
 model = Sequential()
 model.add(Conv2D(64, (3, 3), input_shape=input_shape))
 model.add(Activation('relu'))
@@ -36,7 +38,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-'''
+
 model.add(Conv2D(128, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -44,16 +46,72 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(256, (3, 3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-'''
+
 model.add(Flatten())
 model.add(Dense(256))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(num_classes))
 model.add(Activation('softmax'))
+'''
 
-# 加载先前训练了250轮之后的权重，继续训练50轮以观察loss和acc的变化情况
-#model.load_weights('first_try.h5')
+model = Sequential()
+model.add(ZeroPadding2D((1, 1), input_shape=input_shape))
+model.add(Conv2D(64, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(64, 3, 3, activation='relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(128, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(128, 3, 3, activation='relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(256, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(256, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(256, 3, 3, activation='relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(ZeroPadding2D((1, 1)))
+model.add(Conv2D(512, 3, 3, activation='relu'))
+model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+
+# Add Fully Connected Layer
+model.add(Flatten())
+model.add(Dense(4096, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(4096, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(1000, activation='softmax'))
+
+# Loads ImageNet pre-trained data
+model.load_weights('imagenet_models/vgg16_weights.h5')
+
+# Truncate and replace softmax layer for transfer learning
+model.layers.pop()
+model.outputs = [model.layers[-1].output]
+model.layers[-1].outbound_nodes = []
+model.add(Dense(num_classes, activation='softmax'))
+
+# Load weights after first 100 epoch
+# model.load_weights('first_try.h5')
+sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(optimizer='adadelta', loss='categorical_crossentropy', metrics=['accuracy'])
 
 # 进行数据增强用于更好的训练模型
