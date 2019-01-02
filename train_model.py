@@ -101,7 +101,7 @@ model.add(Dropout(0.5))
 model.add(Dense(1000, activation='softmax'))
 
 # Loads ImageNet pre-trained data
-model.load_weights('./imagenet_models/vgg16_weights.h5')
+model.load_weights('./imagenet_models/vgg16_weights_tf_dim_ordering_tf_kernels.h5')
 
 # Truncate and replace softmax layer for transfer learning
 model.layers.pop()
