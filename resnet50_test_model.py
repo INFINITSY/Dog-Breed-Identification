@@ -14,7 +14,8 @@ import os
 import sys
 import operator
 import random
-
+import json
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 def identity_block(input_tensor, kernel_size, filters, stage, block):
     """
     The identity_block is the block that has no conv layer at shortcut
@@ -145,7 +146,7 @@ def resnet50_model(img_rows, img_cols, color_type=3, num_classes=None, feature =
     model = Model(img_input, x_classification_fc)
 
     # Load resnet50 weights
-    model.load_weights('')
+    model.load_weights('resnet50_new_try.h5')
 
     if feature:
         x_feature_fc = AveragePooling2D((7, 7), name='avg_pool')(x)
@@ -171,9 +172,17 @@ def compute_and_return(img_path):
 
     # vars for storing results
     list_of_images = []
+    list_of_reference_feature = {}
     compare = {}
     result = {}
     i = 0
+    
+    # load saved reference feature from JSON 
+    reference_feature_save = open("reference_feature_save", "r")
+    reference_feature_save_js = reference_feature_save.read()
+    list_of_reference_feature = json.loads(reference_feature_save_js)
+    reference_feature_save.close()
+    
 
     # read images in test_query
     img = cv2.resize(cv2.imread(img_path), (224, 224)).astype(np.float32)
@@ -182,25 +191,33 @@ def compute_and_return(img_path):
 
     # classification
     dog_type = model_classification.predict(img)
-    print(dog_type)
+  
+    
 
     # feature
     dog_feature = model_feature.predict(img)
-
-    reference_path = './test_reference/'
+    # print(dog_feature)
+    
+    reference_path = './retrival/'
 
     # for all img in ./reference
-    for dir_item in os.listdir(reference_path):
-        full_path = os.path.abspath(os.path.join(reference_path, dir_item))
-        if dir_item.endswith('.jpg'):
-            img = cv2.resize(cv2.imread(full_path), (64, 64)).astype(np.float32)
-            img /= 255
-            img = np.expand_dims(img, axis=0)
-            reference_feature = model_feature.predict(img)
-            # compute distance
-            dist = np.sqrt(np.sum(np.square(dog_feature - reference_feature)))
-            compare[dir_item] = dist
-
+    #for dir_item in os.listdir(reference_path):
+    #    full_path = os.path.abspath(os.path.join(reference_path, dir_item))
+    #    if dir_item.endswith('.jpg'):
+    #        img = cv2.resize(cv2.imread(full_path), (224, 224)).astype(np.float32)
+    #        img /= 255
+    #        img = np.expand_dims(img, axis=0)
+    #        reference_feature = model_feature.predict(img)
+    #        list_of_reference_feature[dir_item] = reference_feature[0].tolist()
+    #        # compute distance
+    #        dist = np.sqrt(np.sum(np.square(dog_feature - reference_feature)))
+    #        compare[dir_item] = dist 
+    #reference_feature_save.write(json.dumps(list_of_reference_feature))
+    
+    for key, value in list_of_reference_feature.items():
+        compare[key] = np.sqrt(np.sum(np.square(dog_feature[0] - np.array(value))))
+    
+        
     # up sort by similarity
     sorted_compare = sorted(compare.items(), key=operator.itemgetter(1))
 
@@ -236,7 +253,7 @@ def compute_and_return(img_path):
     # doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding='utf-8')
 
     # return 15 images for show
-    return list_of_images[:15]
+    return list_of_images[:15], dog_type
 
 
 if __name__ == '__main__':
@@ -244,4 +261,5 @@ if __name__ == '__main__':
     if len(sys.argv) != 2:
         print("Usage:%s path_name\r\n" % (sys.argv[0]))
     else:
-        list_of_images = compute_and_return(sys.argv[1])
+        list_of_images, dog_type = compute_and_return(sys.argv[1])
+        print(list_of_images)

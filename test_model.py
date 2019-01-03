@@ -106,21 +106,21 @@ def compute_and_return(img_path):
             break
 
     # 写入xml文件
-    doc = xml.dom.minidom.Document()
-    root = doc.createElement('Message')
-    root.setAttribute('Version', '1.0')
-    doc.appendChild(root)
-    node_items = doc.createElement('Items')
-    node_items.setAttribute('name', re.findall(r"\d+", img_path)[0])  # 正则表达式仅将图片名中的数字提取出来
-
-    for i in range(flag):
-        node_item = doc.createElement('Item')
-        node_item.setAttribute('image_name', re.findall(r"\d+", list(result.keys())[i])[0])
-        node_items.appendChild(node_item)
-
-    root.appendChild(node_items)
-    fp = open('xml_doc' + '/' + 'result.xml', 'w')
-    doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding='utf-8')
+    # doc = xml.dom.minidom.Document()
+    # root = doc.createElement('Message')
+    # root.setAttribute('Version', '1.0')
+    # doc.appendChild(root)
+    # node_items = doc.createElement('Items')
+    # node_items.setAttribute('name', re.findall(r"\d+", img_path)[0])  # 正则表达式仅将图片名中的数字提取出来
+    #
+    # for i in range(flag):
+    #     node_item = doc.createElement('Item')
+    #     node_item.setAttribute('image_name', re.findall(r"\d+", list(result.keys())[i])[0])
+    #     node_items.appendChild(node_item)
+    #
+    # root.appendChild(node_items)
+    # fp = open('xml_doc' + '/' + 'result.xml', 'w')
+    # doc.writexml(fp, indent='\t', addindent='\t', newl='\n', encoding='utf-8')
 
     # 返回列表的前15个元素用于显示
     return list_of_images[:15]
