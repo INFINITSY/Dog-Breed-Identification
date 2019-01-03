@@ -1,6 +1,6 @@
-#Dog_test
+# Dog_test
 
-##Intreduction
+## Intreduction
 
 ### detect.py
 
@@ -32,7 +32,7 @@ A GUI for test image selection and results representing.
 
 
 
-##Usage
+### Usage
 
 - Run gui_final.py
 - Select image for testing
