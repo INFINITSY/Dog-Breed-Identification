@@ -5,7 +5,7 @@ Created on Sun Fib 25 20:13:24 2018
 @author: Liu Jiguang
 """
 from PIL import Image, ImageTk
-from test_model import compute_and_return
+from resnet50_test_model import compute_and_return
 import tkinter as tk
 import tkinter.filedialog
 
