@@ -28,7 +28,7 @@ __Data:__ _training data_ is in `/train` and _validation data_ is in `/validatio
 
 ### ResNet50_test_model.py
 
-Predict the class of a test image and compare it with images in _reference_ dataset, return top 15 images for show.
+Predict the class of a test image and compare it with _reference_ images in `/retrival`, return top 15 images for show.
 
 
 
