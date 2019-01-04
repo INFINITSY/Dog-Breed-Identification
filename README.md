@@ -10,6 +10,12 @@ __Input:__ origin image
 
 __Output:__ cropped image
 
+__Note:__ download yolov3.weights to this directory first
+
+```shell
+$ wget https://pjreddie.com/media/files/yolov3.weights
+```
+
 
 
 ### ResNet50_train_model.py
