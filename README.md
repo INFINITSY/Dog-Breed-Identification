@@ -34,7 +34,9 @@ Predict the class of a test image and compare it with images in _reference_ data
 
 ### gui_final.py
 
-A GUI for test image selection and results representing.
+A GUI for test image selection and results presenting.
+
+__Note:__ gui may look different due to computer resolution
 
 
 
@@ -43,6 +45,6 @@ A GUI for test image selection and results representing.
 - Run gui_final.py
 - Select image for testing
 - Compute and wait for result
-- Results representing
+- Results presenting
 - Select a new image...
 
