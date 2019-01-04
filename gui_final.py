@@ -24,7 +24,9 @@ def SelectPath():
     global g_path
     g_path = tk.filedialog.askopenfilename()
     path.set(g_path)
-    os.system('cd /home/cv_wbchen/YOLO_v3_tutorial_from_scratch && python /home/cv_wbchen/YOLO_v3_tutorial_from_scratch/detect.py  --images ' +' '+ g_path)
+
+    # os.system('cd /home/cv_wbchen/YOLO_v3_tutorial_from_scratch && python /home/cv_wbchen/YOLO_v3_tutorial_from_scratch/detect.py  --images' +' '+ g_path)
+    os.system('python detect.py  --images' +' '+ g_path)
 
 		
     global g_crop_path
