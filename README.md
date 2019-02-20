@@ -8,9 +8,11 @@ Input an image, and it will tell you the type of dog in it. 15 most similar imag
 ### Demo
 The cropped image of the original input is shown on the up-left with the predicted type. The rest are the output images that are most similar to the input.
 
+The input is a __Golden Retriever__. The predicted type is __CORRECT__. Most similar images belong to the right type of dogs, but some of them don't, e.g., Labrador.
 ![test1](https://github.com/INFINITSY/dog_test/blob/master/test1.jpg)
-
+The input is a __Siberian Husky__. The predicted type is __CORRECT__. Most similar images again belong to the same kind, yet some Malamutes are included.
 ![test2](https://github.com/INFINITSY/dog_test/blob/master/test2.jpg)
+Experiments show that this App can always predict the right type and most of the output  images belong to the same kind of dog as the input. It does make some mistakes when two types of dogs are similar to each other, e.g., __Husky vs Malamute__, which is hard even for human eyes:). 
 
 ### detect.py
 
