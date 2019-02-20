@@ -12,7 +12,7 @@ The input is a __Golden Retriever__(in the up-left). The predicted type(below th
 ![test1](https://github.com/INFINITSY/dog_test/blob/master/test1.jpg)
 The input is a __Siberian Husky__. The predicted type is __CORRECT__. Most similar images again belong to the same kind, yet some Malamutes are included.
 ![test2](https://github.com/INFINITSY/dog_test/blob/master/test2.jpg)
-Experiments show that this App can always predict the right type and most of the output  images belong to the same kind of dog as the input. It does make some mistakes when two types of dogs are similar to each other, e.g., __Husky vs Malamute__, which is hard even for human eyes:). 
+Experiments show that this App can always predict the right type and most of the output  images belong to the same kind of dog as the input. It does make some mistakes when two types of dogs are similar to each other, e.g., __Husky vs Malamute__, which is hard even for human eyes :) 
 
 ### detect.py
 
