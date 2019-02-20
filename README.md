@@ -6,9 +6,9 @@ This is a __Dog Breed Identification__ App.
 Input an image, and it will tell you the type of dog in it. 15 most similar images are shown in the meantime.
 
 ### Demo
-The cropped image of the original input is shown on the up-left with the predicted type. The rest are the output images that are most similar to the input.
+The cropped image of the original input is shown in the up-left with the predicted type. The rest are the output images that are most similar to the input.
 
-The input is a __Golden Retriever__. The predicted type is __CORRECT__. Most similar images belong to the right type of dogs, but some of them don't, e.g., Labrador.
+The input is a __Golden Retriever__(in the up-left). The predicted type(below the input) is __CORRECT__. Most similar images belong to the right type of dogs, but some of them don't, e.g., Labrador.
 ![test1](https://github.com/INFINITSY/dog_test/blob/master/test1.jpg)
 The input is a __Siberian Husky__. The predicted type is __CORRECT__. Most similar images again belong to the same kind, yet some Malamutes are included.
 ![test2](https://github.com/INFINITSY/dog_test/blob/master/test2.jpg)
